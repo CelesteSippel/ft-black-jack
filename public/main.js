@@ -51,7 +51,7 @@ const shuffleDeck = () => {
   console.log(shuffleDeck)
 }
 
-const dealACard = () => {
+const dealACardToPlayer = () => {
   const drawnCard = deck.pop()
   playerHand.push(drawnCard)
   const cardLi = document.createElement('li')
@@ -67,7 +67,18 @@ const dealACard = () => {
   for (let i = 0; i < playerHand.length; i++) {
     sum += playerHand[i].value
   }
+
   document.querySelector('.player-sum').textContent = sum
+}
+
+const getPlayerHandSum = () => {
+  let playerHandSum = 0
+  for (let i = 0; i < playerHand.length; i++) {
+    const card = playerHand[i]
+    playerHandSum += card.value
+    document.querySelector('.player-sum').textContent = playerHandSum.toString()
+  }
+  console.log(playerHandSum)
 }
 
 const makeAndShuffleDeck = () => {
@@ -76,4 +87,4 @@ const makeAndShuffleDeck = () => {
 }
 
 document.addEventListener('DOMContentLoaded', makeAndShuffleDeck)
-document.querySelector('button').addEventListener('click', dealACard)
+document.querySelector('button').addEventListener('click', dealACardToPlayer)

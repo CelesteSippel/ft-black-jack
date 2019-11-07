@@ -48,3 +48,16 @@ body {
   justify-content: flex-start;
   flex-direction: row;
 }
+
+.player-sum {
+  color: red;
+  font-size: 2rem;
+  margin-left: 3rem;
+}
+
+h3 {
+  margin: 0.5rem;
+}
+.dealer-hand {
+  padding-left: 2rem;
+}
