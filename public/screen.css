@@ -72,6 +72,12 @@ h3 {
 .dealer-hand {
   padding-left: 2rem;
 }
+
+.dealer-cards {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+}
 .hide {
   display: none;
 }

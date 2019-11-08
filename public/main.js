@@ -30,6 +30,8 @@ winnerMessage.textContent = 'WINNER! WINNER!'
 const drawMessage = document.createElement('h3')
 drawMessage.textContent = 'DRAW'
 const enableHitButton = document.querySelector('.hit-button')
+const enableStandButton = document.querySelector('.stand-button')
+const enableResetGame = document.querySelector('.reset-game')
 
 const getCardValue = rank => {
   if (rank === 'Ace') {
@@ -67,6 +69,7 @@ const shuffleDeck = () => {
 const makeAndShuffleDeck = () => {
   makeDeck()
   shuffleDeck()
+  startGame()
 }
 const dealACardToPlayer = () => {
   const drawnCard = deck.pop()
@@ -103,12 +106,82 @@ const getPlayerHandSum = () => {
   console.log(playerHandSum)
 }
 
+const dealACardToDealer = () => {
+  for (let i = 0; i < 1; i++) {
+    const drawnCard = deck.pop()
+    dealerHand.push(drawnCard)
+    getDealerHandSum()
+  }
+}
+
+const getDealerHandSum = () => {
+  let dealerHandSum = 0
+  for (let i = 0; i < dealerHand.length; i++) {
+    const card = dealerHand[i]
+    dealerHandSum += card.value
+  }
+}
+
+const printDealerCards = () => {
+  for (let i = 0; i < 1; i++) {
+    const drawnCard = dealerHand[i]
+    const cardLi = document.createElement('li')
+    const p = document.createElement('p')
+    p.textContent = drawnCard.rank + 'of' + drawnCard.suit
+    const img = document.createElement('img')
+    img.src = '/images/cards/' + drawnCard.imageUrl
+    cardLi.appendChild(p)
+    cardLi.appendChild(img)
+    document.querySelector('.dealer-cards').appendChild(cardLi)
+    document
+      .querySelector('.stand-button')
+      .addEventListener('click', printDealerCards)
+  }
+  if (dealerHandSum > playerHandSum && dealerHandSum < 22) {
+    // do this
+    showResults()
+    document.querySelector('.results').appendChild(loserMessage)
+  } else if (dealerHandSum < playerHandSum) {
+    showResults()
+    document.querySelector('.results').appendChild(winnerMessage)
+  } else if (dealerHandSum === playerHandSum) {
+    document.querySelector('.results').appendChild(drawMessage)
+  }
+}
+
+const showTotal = document.querySelector('.dealer-sum')
+showTotal.textContent = dealerHandSum.toString()
+
 const showResults = () => {
   const hideDeal = document.querySelector('.hit-button')
-  hideDeal.classList.add('hide')
+  hideDeal.classList.add('.hide')
+  const hideStand = document.querySelector('.stand-button')
+  hideStand.classList.add('.hide')
   const showResults = document.querySelector('.results')
-  showResults.classList.remove('hide')
+  showResults.classList.remove('.hide')
+}
+
+const hideResults = () => {
+  const hideDeal = document.querySelector('.hit-button')
+  hideDeal.classList.remove('.hide')
+  const hideStand = document.querySelector('.stand-button')
+  hideStand.classList.remove('.hide')
+  const showResults = document.querySelector('.results')
+  showResults.classList.add('.hide')
+}
+
+const startGame = () => {
+  // deal 2 cards to player
+  dealACardToPlayer()
+  dealACardToPlayer()
+  // deal 2 cards to the dealer
+  dealACardToDealer()
+  dealACardToDealer()
 }
 
 document.addEventListener('DOMContentLoaded', makeAndShuffleDeck)
 document.querySelector('button').addEventListener('click', dealACardToPlayer)
+
+document
+  .querySelector('.stand-button')
+  .addEventListener('click', printDealerCards)
