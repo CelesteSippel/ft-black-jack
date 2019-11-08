@@ -21,7 +21,7 @@ body {
   display: flex;
   justify-content: center;
 }
-.hit {
+.hit-button {
   height: 4rem;
   width: 7rem;
   border-radius: 10%;
@@ -32,11 +32,22 @@ body {
   margin-right: 1rem;
 }
 
-.stand {
+.stand-button {
   height: 4rem;
   width: 7rem;
   border-radius: 10%;
   background-color: red;
+  border-color: greenyellow;
+  font-size: 2rem;
+  margin-left: 0.5rem;
+  margin-right: 1rem;
+}
+
+.reset-game {
+  height: 4rem;
+  width: 7rem;
+  border-radius: 10%;
+  background-color: gold;
   border-color: greenyellow;
   font-size: 2rem;
   margin-left: 0.5rem;
@@ -50,7 +61,7 @@ body {
 }
 
 .player-sum {
-  color: blue;
+  color: red;
   font-size: 2rem;
   margin-left: 3rem;
 }
@@ -60,4 +71,7 @@ h3 {
 }
 .dealer-hand {
   padding-left: 2rem;
+}
+.hide {
+  display: none;
 }

@@ -16,7 +16,20 @@ const ranks = [
 ]
 const values = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 const deck = []
+const dealerHand = []
 const playerHand = []
+let dealerHandSum = 0
+let playerHandSum = 0
+
+const loserMessage = document.createElement('h3')
+loserMessage.textContent = 'LOSER!!'
+const blackJackMessage = document.createElement('h3')
+blackJackMessage.textContent = 'BLACKJACK!!'
+const winnerMessage = document.createElement('h3')
+winnerMessage.textContent = 'WINNER! WINNER!'
+const drawMessage = document.createElement('h3')
+drawMessage.textContent = 'DRAW'
+const enableHitButton = document.querySelector('.hit-button')
 
 const getCardValue = rank => {
   if (rank === 'Ace') {
@@ -51,6 +64,10 @@ const shuffleDeck = () => {
   console.log(shuffleDeck)
 }
 
+const makeAndShuffleDeck = () => {
+  makeDeck()
+  shuffleDeck()
+}
 const dealACardToPlayer = () => {
   const drawnCard = deck.pop()
   playerHand.push(drawnCard)
@@ -63,12 +80,17 @@ const dealACardToPlayer = () => {
   cardLi.appendChild(img)
   document.querySelector('.player-hand').appendChild(cardLi)
 
-  let sum = 0
-  for (let i = 0; i < playerHand.length; i++) {
-    sum += playerHand[i].value
-  }
+  getPlayerHandSum()
 
-  document.querySelector('.player-sum').textContent = sum
+  if (playerHandSum === 21) {
+    showResults()
+    document.querySelector('.results').appendChild(blackJackMessage)
+  } else if (playerHandSum > 21) {
+    showResults()
+    document.querySelector('.results').appendChild(loserMessage)
+  } else if (playerHandSum < 21) {
+    enableHitButton.addEventListener('click', dealACardToPlayer)
+  }
 }
 
 const getPlayerHandSum = () => {
@@ -81,9 +103,11 @@ const getPlayerHandSum = () => {
   console.log(playerHandSum)
 }
 
-const makeAndShuffleDeck = () => {
-  makeDeck()
-  shuffleDeck()
+const showResults = () => {
+  const hideDeal = document.querySelector('.hit-button')
+  hideDeal.classList.add('hide')
+  const showResults = document.querySelector('.results')
+  showResults.classList.remove('hide')
 }
 
 document.addEventListener('DOMContentLoaded', makeAndShuffleDeck)
