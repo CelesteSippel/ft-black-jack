@@ -1,4 +1,3 @@
-const suits = ['hearts', 'diamonds', 'spades', 'clubs']
 const ranks = [
   'Ace',
   '2',
@@ -14,18 +13,17 @@ const ranks = [
   'Queen',
   'King'
 ]
-const values = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+// getting values as a parallel array
+// const values = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+const suits = ['Spades', 'Diamonds', 'Clubs', 'Hearts']
+
 const deck = []
-const dealerHand = []
 const playerHand = []
+const dealerHand = []
+const show = true
+const hide = false
 
-let dealerHandSum = 0
-let playerHandSum = 0
-
-const enableHitButton = document.querySelector('.hit-button')
-const enableStandButton = document.querySelector('.stand-button')
-const enableResetGame = document.querySelector('.reset-game')
-
+// get values using a if statement
 const getCardValue = rank => {
   if (rank === 'Ace') {
     return 11
@@ -36,7 +34,7 @@ const getCardValue = rank => {
   }
 }
 
-const makeDeck = () => {
+const main = () => {
   for (let i = 0; i < suits.length; i++) {
     for (let j = 0; j < ranks.length; j++) {
       const card = {
@@ -48,106 +46,69 @@ const makeDeck = () => {
       deck.push(card)
     }
   }
-}
-const shuffleDeck = () => {
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * i)
+  for (let i = 0; i < deck.length; i++) {
+    const j = Math.floor(Math.random() * 52)
     const temp = deck[i]
     deck[i] = deck[j]
     deck[j] = temp
   }
-  console.log(shuffleDeck)
+  console.log(deck)
+  beginGame()
 }
 
-const main = () => {
-  makeDeck()
-  shuffleDeck()
-  startGame()
+const showSum = (hand, sumContainer) => {
+  let playerSum = 0
+  for (let i = 0; i < hand.length; i++) {
+    playerSum += hand[i].value
+  }
+  document.querySelector(sumContainer).textContent = playerSum
 }
 
-const startGame = () => {
-  // deal 2 cards to player
-  dealACardToPlayer()
-  dealACardToPlayer()
-  // deal 2 cards to the dealer
-  dealACardToDealer()
-  dealACardToDealer()
-}
+const dealCard = (deckFrom, handTo, imageContainer, showHide) => {
+  handTo.push(deckFrom.pop())
 
-const dealACardToPlayer = () => {
-  const drawnCard = deck.pop()
-  playerHand.push(drawnCard)
   const cardLi = document.createElement('li')
-  const p = document.createElement('p')
-  p.textContent = drawnCard.rank + 'of' + drawnCard.suit
   const img = document.createElement('img')
-  img.src = '/images/cards/' + drawnCard.imageUrl
-  cardLi.appendChild(p)
+  if (showHide) {
+    img.src = './images/cards/' + handTo[handTo.length - 1].imageUrl
+    img.alt = './images/red back.svg'
+  } else {
+    img.alt = './images/cards/' + handTo[handTo.length - 1].imageUrl
+    img.src = './images/red back.svg'
+  }
   cardLi.appendChild(img)
-  document.querySelector('.player-hand').appendChild(cardLi)
-
-  getPlayerHandSum()
+  document.querySelector(imageContainer).appendChild(cardLi)
 }
 
-const getPlayerHandSum = () => {
-  let playerHandSum = 0
-  for (let i = 0; i < playerHand.length; i++) {
-    const card = playerHand[i]
-    playerHandSum += card.value
-    document.querySelector('.player-sum').textContent = playerHandSum.toString()
-  }
-  if (playerHandSum > 21) {
-    document.querySelector('h3').textContent = 'BUST'
-    document.querySelector('.reset-game').classList.remove('.hide')
-    document.querySelector('.hit-button').disabled = true
-    document.querySelector('.stand-button').disabled = true
-  }
+const dealerPlays = () => {
+  flipCard('.dealer-hand')
+  showSum(dealerHand, '.dealer-sum')
 }
 
-const printDealerCards = () => {
-  const drawnCard = deck.pop()
-  dealerHand.push(drawnCard)
-  const cardLi = document.createElement('li')
-  const p = document.createElement('p')
-  p.textContent = drawnCard.rank + 'of' + drawnCard.suit
-  const img = document.createElement('img')
-  img.src = '/images/cards/' + drawnCard.imageUrl
-  cardLi.appendChild(p)
-  cardLi.appendChild(img)
-  document.querySelector('.dealer-cards').appendChild(cardLi)
-
-  getDealerHandSum()
-}
-
-const getDealerHandSum = () => {
-  let dealerHandSum = 0
-  for (let i = 0; i < dealerHand.length; i++) {
-    const card = dealerHand[i]
-    dealerHandSum += card.value
+const flipCard = imageContainer => {
+  // console.log(document.querySelector(imageContainer).children.length)
+  for (
+    let i = 0;
+    i < document.querySelector(imageContainer).children.length;
+    i++
+  ) {
+    // console.log(document.querySelector(imageContainer).children[i].children[0])
+    const img = document.querySelector(imageContainer).children[i].children[0]
+    const temp = img.src
+    img.src = img.alt
+    img.alt = temp
   }
 }
 
-// // const showResults = () => {
-// //   const hideDeal = document.querySelector('.hit-button')
-// //   hideDeal.classList.add('.hide')
-// //   const hideStand = document.querySelector('.stand-button')
-// //   hideStand.classList.add('.hide')
-// //   const showResults = document.querySelector('.results')
-// //   showResults.classList.remove('.hide')
-// // }
+const beginGame = () => {
+  dealCard(deck, playerHand, '.player-hand', show)
+  dealCard(deck, dealerHand, '.dealer-hand', hide)
+  dealCard(deck, playerHand, '.player-hand', show)
+  dealCard(deck, dealerHand, '.dealer-hand', hide)
 
-// // const hideResults = () => {
-// //   const hideDeal = document.querySelector('.hit-button')
-// //   hideDeal.classList.remove('.hide')
-// //   const hideStand = document.querySelector('.stand-button')
-// //   hideStand.classList.remove('.hide')
-// //   const showResults = document.querySelector('.results')
-// //   showResults.classList.add('.hide')
-// //  }
+  showSum(playerHand, '.player-sum')
+}
 
 document.addEventListener('DOMContentLoaded', main)
-document.querySelector('button').addEventListener('click', dealACardToPlayer)
 
-document
-  .querySelector('.stand-button')
-  .addEventListener('click', printDealerCards)
+document.querySelector('.stand-button').addEventListener('click', dealerPlays)

@@ -21,7 +21,7 @@ body {
   display: flex;
   justify-content: center;
 }
-.hit-button {
+.hitButton {
   height: 4rem;
   width: 7rem;
   border-radius: 10%;
@@ -32,7 +32,7 @@ body {
   margin-right: 1rem;
 }
 
-.stand-button {
+.standButton {
   height: 4rem;
   width: 7rem;
   border-radius: 10%;
@@ -43,7 +43,7 @@ body {
   margin-right: 1rem;
 }
 
-.reset-game {
+.resetButton {
   height: 4rem;
   width: 7rem;
   border-radius: 10%;
@@ -70,16 +70,19 @@ body {
 h3 {
   margin: 0.5rem;
 }
+h4 {
+  margin: 0.5rem;
+}
 .dealer-hand {
   display: flex;
   justify-content: flex-start;
   flex-direction: row;
 }
 
-.dealer-cards {
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: row;
+.dealer-sum {
+  color: red;
+  font-size: 2rem;
+  margin-left: 3rem;
 }
 .hide {
   display: none;

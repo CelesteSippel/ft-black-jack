@@ -8,30 +8,31 @@
     <link rel="stylesheet" href="/screen.css" />
   </head>
   <body>
-    <main>
-      <section class="header-pic">
-        <img src="./images/black jack header.png" alt="Blackjack" />
-      </section>
-      <section class="buttons">
-        <button class="hit-button">HIT</button>
-        <button class="stand-button">STAND</button>
-        <button class="reset-game">RESET</button>
+    <section class="header-pic">
+      <img src="./images/black jack header.png" alt="Blackjack" />
+    </section>
+    <section class="buttons">
+      <button class="hitButton">HIT</button>
+      <button class="standButton">STAND</button>
+      <button class="resetButton">RESET</button>
+    </section>
+
+    <section>
+      <section>
+        <p class="dealer-sum">0</p>
+        <p></p>
       </section>
 
       <section>
-        <h4 class="dealer-sum">0<h4>
+        <ul class="dealer-hand"></ul>
       </section>
-      <section class="dealer-hand">
-        <ul class="dealer-cards "></ul>
-      </section>
-      <section class="results"></section>
-      <section>
-        <h3 class="player-sum">0</h3>
-      </section>
-      <section>
-        <ul class="player-hand"></ul>
-      </section>
-      <script src="/main.js" charset="utf-8"></script>
-    </main>
+    </section>
+    <section>
+      <p class="player-sum">0</p>
+    </section>
+    <section>
+      <ul class="player-hand"></ul>
+    </section>
+    <script src="/main.js" charset="utf-8"></script>
   </body>
 </html>
