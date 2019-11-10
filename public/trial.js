@@ -18,6 +18,8 @@ const values = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 const deck = []
 const dealerHand = []
 const playerHand = []
+const show = true
+const hide = false
 
 let dealerHandSum = 0
 let playerHandSum = 0
@@ -110,10 +112,14 @@ const dealACardToDealer = () => {
   const drawnCard = deck.pop()
   dealerHand.push(drawnCard)
   const cardLi = document.createElement('li')
-  const p = document.createElement('p')
-  p.textContent = drawnCard.rank + 'of' + drawnCard.suit
   const img = document.createElement('img')
-  img.src = '/images/cards/' + drawnCard.imageUrl
+  if (showHide) {
+    img.src = './images/cards/' + drawnCard.imageUrl
+    img.alt = './images/red back.svg'
+  } else {
+    img.alt = './images/ red back.svg'
+    img.src = './images/cards/' + drawnCard.imageUrl
+  }
   cardLi.appendChild(p)
   cardLi.appendChild(img)
   document.querySelector('.dealer-hand').appendChild(cardLi)
@@ -132,13 +138,29 @@ const getDealerHandSum = () => {
   console.log(dealerHandSum)
 }
 
-const printDealerCards = document
-  .querySelector('.dealer-sum')
-  .classList.remove('.hide')
+const showDealerHand = () => {
+  flipCard('.dealer-hand')
+  showSum(dealerHand, '.dealer-sum')
+}
+
+const flipCard = imageContainer => {
+  // console.log(document.querySelector(imageContainer).children.length)
+  for (
+    let i = 0;
+    i < document.querySelector(imageContainer).children.length;
+    i++
+  ) {
+    // console.log(document.querySelector(imageContainer).children[i].children[0])
+    const img = document.querySelector(imageContainer).children[i].children[0]
+    const temp = img.src
+    img.src = img.alt
+    img.alt = temp
+  }
+}
 
 document.addEventListener('DOMContentLoaded', main)
 document.querySelector('button').addEventListener('click', dealACardToPlayer)
 
 document
   .querySelector('.stand-button')
-  .addEventListener('click', printDealerCards)
+  .addEventListener('click', showDealerHand)

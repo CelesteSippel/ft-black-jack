@@ -80,7 +80,7 @@ const dealCard = (deckFrom, handTo, imageContainer, showHide) => {
   document.querySelector(imageContainer).appendChild(cardLi)
 }
 
-const dealerPlays = () => {
+const showDealerHand = () => {
   flipCard('.dealer-hand')
   showSum(dealerHand, '.dealer-sum')
 }
@@ -100,6 +100,28 @@ const flipCard = imageContainer => {
   }
 }
 
+const hitPlayer = () => {
+  const drawnCard = deck.pop()
+  playerHand.push(drawnCard)
+  const cardLi = document.createElement('li')
+  const img = document.createElement('img')
+  img.src = '/images/cards/' + drawnCard.imageUrl
+
+  cardLi.appendChild(img)
+  document.querySelector('.player-hand').appendChild(cardLi)
+}
+
+const hitDealer = () => {
+  const drawnCard = deck.pop()
+  dealerHand.push(drawnCard)
+  const cardLi = document.createElement('li')
+  const img = document.createElement('img')
+  img.src = '/images/cards/' + drawnCard.imageUrl
+
+  cardLi.appendChild(img)
+  document.querySelector('.dealer-hand').appendChild(cardLi)
+}
+
 const beginGame = () => {
   dealCard(deck, playerHand, '.player-hand', show)
   dealCard(deck, dealerHand, '.dealer-hand', hide)
@@ -110,5 +132,8 @@ const beginGame = () => {
 }
 
 document.addEventListener('DOMContentLoaded', main)
-
-document.querySelector('.stand-button').addEventListener('click', dealerPlays)
+document.querySelector('.hit-button').addEventListener('click', hitPlayer)
+document.querySelector('.dealer-hit').addEventListener('click', hitDealer)
+document
+  .querySelector('.stand-button')
+  .addEventListener('click', showDealerHand)
