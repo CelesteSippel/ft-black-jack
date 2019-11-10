@@ -58,6 +58,7 @@ body {
   display: flex;
   justify-content: flex-start;
   flex-direction: row;
+  padding-left: 2rem;
 }
 
 .player-sum {
@@ -70,7 +71,9 @@ h3 {
   margin: 0.5rem;
 }
 .dealer-hand {
-  padding-left: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
 }
 
 .dealer-cards {
