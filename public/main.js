@@ -150,34 +150,35 @@ const gameEnd = () => {
   const dealerHand = document.querySelector('.dealer-sum').value
   const playerHand = document.querySelector('.player-sum').value
   if (playerHand > 21) {
-    document.querySelector('h3').textContent = 'BUST'
-    document.querySelector('h2').textContent = 'WINNER'
+    document.querySelector('.did-you-win').textContent = 'LOSER'
+    document.querySelector('.is-dealer-winner').textContent = 'WINNER'
     document.querySelector('.hit-button').disabled = true
     document.querySelector('.dealer-hit-button').disabled = true
     document.querySelector('.stand-button').disabled = true
   } else if (playerHand === 21) {
-    document.querySelector('h3').textContent = 'WINNER'
-    document.querySelector('h2').textContent = 'LOSER'
+    document.querySelector('.did-you-win').textContent = 'WINNER'
+    document.querySelector('.is-dealer-winner').textContent = 'LOSER'
     document.querySelector('.hit-button').disabled = true
     document.querySelector('.stand-button').disabled = true
   } else if (dealerHand < 17) {
     document.querySelector('.dealer-hit-button').disabled = false
-  }
-  if (dealerHand > 21) {
-    document.querySelector('h3').textContent = 'WINNER'
-    document.querySelector('h2').textContent = 'BUST'
+  } else if (dealerHand >= 17) {
+    document.querySelector('.dealer-hit-button').disabled = true
+  } else if (dealerHand > 21) {
+    document.querySelector('.is-dealer-winner').textContent = 'LOSER'
+    document.querySelector('.did-you-win').textContent = 'WINNER'
     document.querySelector('.hit-button').disabled = true
     document.querySelector('.stand-button').disabled = true
     document.querySelector('.dealer-hit-button').disabled = true
   } else if (dealerHand === 21) {
-    document.querySelector('h3').textContent = 'LOSER'
-    document.querySelector('h2').textContent = 'WINNER'
+    document.querySelector('.did-you-win').textContent = 'LOSER'
+    document.querySelector('.is-dealer-winner').textContent = 'WINNER'
     document.querySelector('.hit-button').disabled = true
     document.querySelector('.stand-button').disabled = true
     document.querySelector('.dealer-hit-button').disabled = true
   } else if (dealerHand > playerHand) {
-    document.querySelector('h3').textContent = 'BUST'
-    document.querySelector('h2').textContent = 'WINNER'
+    document.querySelector('.is-dealer-winner').textContent = 'BUST'
+    document.querySelector('.did-you-win').textContent = 'WINNER'
     document.querySelector('.hit-button').disabled = true
     document.querySelector('.stand-button').disabled = true
     document.querySelector('.dealer-hit-button').disabled = true

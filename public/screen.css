@@ -94,12 +94,12 @@ h4 {
   font-size: 2rem;
   margin-left: 3rem;
 }
-h2 {
+.did-you-win {
   color: red;
   font-size: 2rem;
   margin-left: 3rem;
 }
-h3 {
+.is-dealer-winner {
   color: red;
   font-size: 2rem;
   margin-left: 3rem;
