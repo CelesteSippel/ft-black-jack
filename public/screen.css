@@ -43,7 +43,7 @@ body {
   margin-right: 1rem;
 }
 
-.dealer-hit {
+.dealer-hit-button {
   height: 4rem;
   width: 7rem;
   border-radius: 10%;
@@ -94,12 +94,12 @@ h4 {
   font-size: 2rem;
   margin-left: 3rem;
 }
-.is-dealer-winner {
+h2 {
   color: red;
   font-size: 2rem;
   margin-left: 3rem;
 }
-.did-you-win {
+h3 {
   color: red;
   font-size: 2rem;
   margin-left: 3rem;

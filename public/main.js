@@ -25,6 +25,13 @@ const hide = false
 
 let dealerTotal = 0
 let playerTotal = 0
+
+const enableHitButton = document.querySelector('.hit-button')
+const enableStandButton = document.querySelector('.stand-button')
+const enableResetButton = document.querySelector('.reset-button')
+const disableDealerHitButton = document.querySelector('.dealer-hit-button')
+  .disabled
+
 // get values using a if statement
 const getCardValue = rank => {
   if (rank === 'Ace') {
@@ -58,6 +65,15 @@ const main = () => {
   beginGame()
 }
 
+const beginGame = () => {
+  dealCard(deck, playerHand, '.player-hand', show)
+  dealCard(deck, dealerHand, '.dealer-hand', hide)
+  dealCard(deck, playerHand, '.player-hand', show)
+  dealCard(deck, dealerHand, '.dealer-hand', hide)
+
+  showSum(playerHand, '.player-sum')
+}
+
 const showSum = (hand, sumContainer) => {
   let playerSum = 0
   for (let i = 0; i < hand.length; i++) {
@@ -85,6 +101,9 @@ const dealCard = (deckFrom, handTo, imageContainer, showHide) => {
 const showDealerHand = () => {
   flipCard('.dealer-hand')
   showSum(dealerHand, '.dealer-sum')
+  document.querySelector('.stand-button').disabled = true
+  document.querySelector('.hit-button').disabled = true
+  console.log(showDealerHand)
 }
 
 const flipCard = imageContainer => {
@@ -121,88 +140,59 @@ const hitDealer = () => {
   const cardLi = document.createElement('li')
   const img = document.createElement('img')
   img.src = '/images/cards/' + drawnCard.imageUrl
-
   cardLi.appendChild(img)
   document.querySelector('.dealer-hand').appendChild(cardLi)
-
   showSum(dealerHand, '.dealer-sum')
   gameEnd()
 }
 
-const beginGame = () => {
-  dealCard(deck, playerHand, '.player-hand', show)
-  dealCard(deck, dealerHand, '.dealer-hand', hide)
-  dealCard(deck, playerHand, '.player-hand', show)
-  dealCard(deck, dealerHand, '.dealer-hand', hide)
-
-  showSum(playerHand, '.player-sum')
-}
-
 const gameEnd = () => {
-  const dealerTotal = document.querySelector('.dealer-sum').value
-  const playerTotal = document.querySelector('.player-sum').value
-  if (dealerTotal === 21) {
-    document.querySelector('.is-dealer-winner').textContent = 'Dealer Wins'
-    document.querySelector('.did-you-win').textContent = 'Player One Loses!'
-  } else if (dealerTotal > 21) {
-    document.querySelector('.is-dealer-winner').textContent =
-      'Dealer Bust, Player One Wins'
-    document.querySelector('.did-you-win').textContent =
-      'House Busted, Player One Wins'
-  } else if (dealerTotal === 21 && playerTotal === 21) {
-    document.querySelector('.did-you-win').textContent = 'Player One Wins!'
-    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
-  } else if (playerTotal === 21) {
-    document.querySelector('.did-you-win').textContent = 'Player One Wins!'
-    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
-  } else if (playerTotal > 21) {
-    document.querySelector('.did-you-win').textContent =
-      'Busted, Player One Wins'
-    document.querySelector('is-dealer-winner').textContent =
-      'Player One Busted, Dealer Wins'
-  } else if (
-    dealerTotal >= 12 &&
-    playerTotal > dealerTotal &&
-    playerTotal < 21
-  ) {
-    document.querySelector('.did-you-win').textContent = 'Player One Wins'
-    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
-  } else if (
-    dealerTotal >= 12 &&
-    playerTotal < dealerTotal &&
-    playerTotal < 21
-  ) {
-    document.querySelector('.is-dealer-winner').textContent = 'Dealer Wins'
-    document.querySelector('.did-you-win').textContent = 'Dealer Wins'
-  } else if (
-    dealerTotal >= 12 &&
-    playerTotal === dealerTotal &&
-    playerTotal < 21
-  ) {
-    document.querySelector('.is-dealer-winner').textContent =
-      'Push -- No Winner'
-    document.querySelector('.did-you-win').textContent = 'Push -- No Winner'
+  const dealerHand = document.querySelector('.dealer-sum').value
+  const playerHand = document.querySelector('.player-sum').value
+  if (playerHand > 21) {
+    document.querySelector('h3').textContent = 'BUST'
+    document.querySelector('h2').textContent = 'WINNER'
+    document.querySelector('.hit-button').disabled = true
+    document.querySelector('.dealer-hit-button').disabled = true
+    document.querySelector('.stand-button').disabled = true
+  } else if (playerHand === 21) {
+    document.querySelector('h3').textContent = 'WINNER'
+    document.querySelector('h2').textContent = 'LOSER'
+    document.querySelector('.hit-button').disabled = true
+    document.querySelector('.stand-button').disabled = true
+  } else if (dealerHand < 17) {
+    document.querySelector('.dealer-hit-button').disabled = false
   }
-  document.querySelector('.reset-button').classList.remove('hide')
-  document.querySelector('.hit-button').disabled = true
-  document.querySelector('.stand-button').disabled = true
-  document.querySelector('.dealer-hit').disabled = true
+  if (dealerHand > 21) {
+    document.querySelector('h3').textContent = 'WINNER'
+    document.querySelector('h2').textContent = 'BUST'
+    document.querySelector('.hit-button').disabled = true
+    document.querySelector('.stand-button').disabled = true
+    document.querySelector('.dealer-hit-button').disabled = true
+  } else if (dealerHand === 21) {
+    document.querySelector('h3').textContent = 'LOSER'
+    document.querySelector('h2').textContent = 'WINNER'
+    document.querySelector('.hit-button').disabled = true
+    document.querySelector('.stand-button').disabled = true
+    document.querySelector('.dealer-hit-button').disabled = true
+  } else if (dealerHand > playerHand) {
+    document.querySelector('h3').textContent = 'BUST'
+    document.querySelector('h2').textContent = 'WINNER'
+    document.querySelector('.hit-button').disabled = true
+    document.querySelector('.stand-button').disabled = true
+    document.querySelector('.dealer-hit-button').disabled = true
+  }
 }
 
-// const resetGame = () => {
-//   document.querySelector('.reset-button').classList.add('hide')
-//   document.querySelector('.hit-button').disabled = false
-//   document.querySelector('.stand-button').disabled = false
-//   document.querySelector('.dealer-hit').disabled = false
-//   let playerTotal = 0
-//   let dealerTotal = 0
+const resetGame = () => {
+  location.reload()
+}
 
-//   document.querySelector('.player-sum').textContent = playerTotal
-//   document.querySelector('.dealer-sum').textContent = dealerTotal
-// }
 document.addEventListener('DOMContentLoaded', main)
 document.querySelector('.hit-button').addEventListener('click', hitPlayer)
-document.querySelector('.dealer-hit').addEventListener('click', hitDealer)
+document
+  .querySelector('.dealer-hit-button')
+  .addEventListener('click', hitDealer)
 document
   .querySelector('.stand-button')
   .addEventListener('click', showDealerHand)

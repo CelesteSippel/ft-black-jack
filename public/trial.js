@@ -164,3 +164,107 @@ document.querySelector('button').addEventListener('click', dealACardToPlayer)
 document
   .querySelector('.stand-button')
   .addEventListener('click', showDealerHand)
+const gameEnd = () => {
+  // valueOfDealerHand()
+  // document.querySelector('.dealer-total').textContent = dealerTotal
+  // valueOfPlayerOneHand()
+  // document.querySelector('.player-one-win').textContent = playerOneTotal
+  if (dealerHand === 21) {
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Wins'
+    document.querySelector('.did-you-win').textContent = 'Player One Loses!'
+  } else if (dealerHand > 21) {
+    document.querySelector('.is-dealer-winner').textContent =
+      'Dealer Bust, Player One Wins'
+    document.querySelector('.did-you-win').textContent =
+      'House Busted, Player One Wins'
+  } else if (dealerHand === 21 && playerHand === 21) {
+    document.querySelector('.did-you-win').textContent = 'Player One Wins!'
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
+  } else if (playerHand === 21) {
+    document.querySelector('.did-you-win').textContent = 'Player One Wins!'
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
+  } else if (playerHand > 21) {
+    document.querySelector('.did-you-win').textContent =
+      'Busted, Player One Wins'
+    document.querySelector('is-dealer-winner').textContent =
+      'Player One Busted, Dealer Wins'
+  } else if (dealerHand >= 12 && playerHand > dealerHand && playerHand < 21) {
+    document.querySelector('.did-you-win').textContent = 'Player One Wins'
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
+  } else if (dealerHand >= 12 && playerHand < dealerHand && playerHand < 21) {
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Wins'
+    document.querySelector('.did-you-win').textContent = 'Dealer Wins'
+  } else if (dealerHand >= 12 && playerHand === dealerHand && playerHand < 21) {
+    document.querySelector('.is-dealer-winner').textContent =
+      'Push -- No Winner'
+    document.querySelector('.did-you-win').textContent = 'Push -- No Winner'
+  }
+  document.querySelector('.reset-button').classList.remove('hide-me')
+  document.querySelector('.hit-button').disabled = true
+  document.querySelector('.stand-button').disabled = true
+  document.querySelector('.dealer-hit').disabled = true
+}
+
+const gameEnd = () => {
+  const dealerTotal = document.querySelector('.dealer-sum').value
+  const playerTotal = document.querySelector('.player-sum').value
+  if (dealerTotal === 21) {
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Wins'
+    document.querySelector('.did-you-win').textContent = 'Player One Loses!'
+  } else if (dealerTotal > 21) {
+    document.querySelector('.is-dealer-winner').textContent =
+      'Dealer Bust, Player One Wins'
+    document.querySelector('.did-you-win').textContent =
+      'House Busted, Player One Wins'
+  } else if (dealerTotal === 21 && playerTotal === 21) {
+    document.querySelector('.did-you-win').textContent = 'Player One Wins!'
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
+  } else if (playerTotal === 21) {
+    document.querySelector('.did-you-win').textContent = 'Player One Wins!'
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
+  } else if (playerTotal > 21) {
+    document.querySelector('.did-you-win').textContent =
+      'Busted, Player One Wins'
+    document.querySelector('is-dealer-winner').textContent =
+      'Player One Busted, Dealer Wins'
+  } else if (
+    dealerTotal >= 12 &&
+    playerTotal > dealerTotal &&
+    playerTotal < 21
+  ) {
+    document.querySelector('.did-you-win').textContent = 'Player One Wins'
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
+  } else if (
+    dealerTotal >= 12 &&
+    playerTotal < dealerTotal &&
+    playerTotal < 21
+  ) {
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Wins'
+    document.querySelector('.did-you-win').textContent = 'Dealer Wins'
+  } else if (
+    dealerTotal >= 12 &&
+    playerTotal === dealerTotal &&
+    playerTotal < 21
+  ) {
+    document.querySelector('.is-dealer-winner').textContent =
+      'Push -- No Winner'
+    document.querySelector('.did-you-win').textContent = 'Push -- No Winner'
+  }
+  document.querySelector('.reset-button').classList.remove('hide')
+  document.querySelector('.hit-button').disabled = true
+  document.querySelector('.stand-button').disabled = true
+  document.querySelector('.dealer-hit').disabled = true
+}
+
+const hitDealer = () => {
+  const drawnCard = deck.pop()
+  dealerHand.push(drawnCard)
+  const cardLi = document.createElement('li')
+  const img = document.createElement('img')
+  img.src = '/images/cards/' + drawnCard.imageUrl
+
+  cardLi.appendChild(img)
+  document.querySelector('.dealer-hand').appendChild(cardLi)
+
+  showSum(dealerHand, '.dealer-sum')
+}
