@@ -23,6 +23,8 @@ const dealerHand = []
 const show = true
 const hide = false
 
+let dealerTotal = 0
+let playerTotal = 0
 // get values using a if statement
 const getCardValue = rank => {
   if (rank === 'Ace') {
@@ -106,9 +108,11 @@ const hitPlayer = () => {
   const cardLi = document.createElement('li')
   const img = document.createElement('img')
   img.src = '/images/cards/' + drawnCard.imageUrl
-
   cardLi.appendChild(img)
   document.querySelector('.player-hand').appendChild(cardLi)
+
+  showSum(playerHand, '.player-sum')
+  gameEnd()
 }
 
 const hitDealer = () => {
@@ -120,6 +124,9 @@ const hitDealer = () => {
 
   cardLi.appendChild(img)
   document.querySelector('.dealer-hand').appendChild(cardLi)
+
+  showSum(dealerHand, '.dealer-sum')
+  gameEnd()
 }
 
 const beginGame = () => {
@@ -131,9 +138,72 @@ const beginGame = () => {
   showSum(playerHand, '.player-sum')
 }
 
+const gameEnd = () => {
+  const dealerTotal = document.querySelector('.dealer-sum').value
+  const playerTotal = document.querySelector('.player-sum').value
+  if (dealerTotal === 21) {
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Wins'
+    document.querySelector('.did-you-win').textContent = 'Player One Loses!'
+  } else if (dealerTotal > 21) {
+    document.querySelector('.is-dealer-winner').textContent =
+      'Dealer Bust, Player One Wins'
+    document.querySelector('.did-you-win').textContent =
+      'House Busted, Player One Wins'
+  } else if (dealerTotal === 21 && playerTotal === 21) {
+    document.querySelector('.did-you-win').textContent = 'Player One Wins!'
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
+  } else if (playerTotal === 21) {
+    document.querySelector('.did-you-win').textContent = 'Player One Wins!'
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
+  } else if (playerTotal > 21) {
+    document.querySelector('.did-you-win').textContent =
+      'Busted, Player One Wins'
+    document.querySelector('is-dealer-winner').textContent =
+      'Player One Busted, Dealer Wins'
+  } else if (
+    dealerTotal >= 12 &&
+    playerTotal > dealerTotal &&
+    playerTotal < 21
+  ) {
+    document.querySelector('.did-you-win').textContent = 'Player One Wins'
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Loses'
+  } else if (
+    dealerTotal >= 12 &&
+    playerTotal < dealerTotal &&
+    playerTotal < 21
+  ) {
+    document.querySelector('.is-dealer-winner').textContent = 'Dealer Wins'
+    document.querySelector('.did-you-win').textContent = 'Dealer Wins'
+  } else if (
+    dealerTotal >= 12 &&
+    playerTotal === dealerTotal &&
+    playerTotal < 21
+  ) {
+    document.querySelector('.is-dealer-winner').textContent =
+      'Push -- No Winner'
+    document.querySelector('.did-you-win').textContent = 'Push -- No Winner'
+  }
+  document.querySelector('.reset-button').classList.remove('hide')
+  document.querySelector('.hit-button').disabled = true
+  document.querySelector('.stand-button').disabled = true
+  document.querySelector('.dealer-hit').disabled = true
+}
+
+// const resetGame = () => {
+//   document.querySelector('.reset-button').classList.add('hide')
+//   document.querySelector('.hit-button').disabled = false
+//   document.querySelector('.stand-button').disabled = false
+//   document.querySelector('.dealer-hit').disabled = false
+//   let playerTotal = 0
+//   let dealerTotal = 0
+
+//   document.querySelector('.player-sum').textContent = playerTotal
+//   document.querySelector('.dealer-sum').textContent = dealerTotal
+// }
 document.addEventListener('DOMContentLoaded', main)
 document.querySelector('.hit-button').addEventListener('click', hitPlayer)
 document.querySelector('.dealer-hit').addEventListener('click', hitDealer)
 document
   .querySelector('.stand-button')
   .addEventListener('click', showDealerHand)
+document.querySelector('.reset-button').addEventListener('click', resetGame)

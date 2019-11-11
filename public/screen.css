@@ -94,6 +94,16 @@ h4 {
   font-size: 2rem;
   margin-left: 3rem;
 }
+.is-dealer-winner {
+  color: red;
+  font-size: 2rem;
+  margin-left: 3rem;
+}
+.did-you-win {
+  color: red;
+  font-size: 2rem;
+  margin-left: 3rem;
+}
 .hide {
   display: none;
 }
